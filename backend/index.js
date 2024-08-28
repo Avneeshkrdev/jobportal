@@ -17,11 +17,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// Allow all origins to access the API
 const corsOptions = {
-    origin: ['http://localhost:5173', 'https://jobportal-uixz.onrender.com'], // Add all allowed origins
+    origin: '*', // Allow all origins
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Specify allowed methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
-    credentials: true,
+    credentials: true, // If you need to send cookies with requests
     optionsSuccessStatus: 204 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
