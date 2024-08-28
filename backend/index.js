@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const corsOptions = {
-    origin: ['http://localhost:5173', 'https://your-frontend-domain.com'], // Add all allowed origins
+    origin: ['http://localhost:5173', 'https://jobportal-uixz.onrender.com'], // Add all allowed origins
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Specify allowed methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
     credentials: true,
