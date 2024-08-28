@@ -8,22 +8,32 @@ import companyRoute from "./routes/company.route.js";
 import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
 
-dotenv.config({});
+dotenv.config();
 
 const app = express();
 
-// middleware
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Allow all origins to access the API
+// Allowed origins
+const allowedOrigins = ['http://localhost:5173', 'https://jobportal-uixz.onrender.com']; // Add your allowed origins here
+
 const corsOptions = {
-    origin: '*', // Allow all origins
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Specify allowed methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
-    credentials: true, // If you need to send cookies with requests
-    optionsSuccessStatus: 204 // some legacy browsers (IE11, various SmartTVs) choke on 204
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            console.log(`Origin: ${origin} is allowed by CORS`);
+            callback(null, true);
+        } else {
+            console.log(`Origin: ${origin} is not allowed by CORS`);
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 204
 };
 
 app.use(cors(corsOptions));
