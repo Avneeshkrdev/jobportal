@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setUser } from '@/redux/authSlice';
 import { Loader2 } from 'lucide-react';
-// import Cookies from 'js-cookie'; // Import js-cookie
+import Cookies from 'js-cookie'; // Import js-cookie
 
 const Login = () => {
 
@@ -35,19 +35,21 @@ const Login = () => {
             const res = await axios.post(`${USER_API_END_POINT}/login`, input);
             console.log(res.data);
 
-            if (res.data.success) {
+            if (res.data.success && res.data.token) {
                 dispatch(setUser(res.data.user));
-                // Cookies.set('token', res.data.token); // Store token in cookie
+                Cookies.set('token', res.data.token, {expires: 1}); // Store token in cookie
 
                 // Check if the token is stored in the cookie
                 // const token =  Cookies.get('token');
                 // console.log('herer I am >>>>>>>>>');
-                // console.log('Token stored in cookie:', token); // Print token in the console
+                console.log('Token stored in cookie'); // Print token in the console
 
+                
                 navigate('/');
                 toast.success(res.data.message);
             } else {
                 toast.error(res.data.message);
+                console.log(res.data.message);
             }
         } catch (error) {
             console.log(error);
@@ -121,12 +123,12 @@ const Login = () => {
                             <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait
                         </Button>
                     ) : (
-                        <Button type='submit' className='w-full my-4'>
+                        <Button type='submit' className='w-full my-4' >
                             Login
                         </Button>
                     )}
-                    <span className='text-sm'>
-                        Don't have an account? <Link to='/signup' className='text-blue-600'>Signup</Link>
+                    <span className='text-sm block text-center '>
+                        Don't have an account? <Link to='/signup' className='  text-blue-600'>Signup</Link>
                     </span>
                 </form>
             </div>

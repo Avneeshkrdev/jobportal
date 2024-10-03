@@ -42,10 +42,7 @@ const PostJob = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            const res = await axios.post(`${JOB_API_END_POINT}/post`, input,{
-                headers:{
-                    'Content-Type':'application/json'
-                },
+            const res = await axios.post(`${JOB_API_END_POINT}/post`, input, {
                 withCredentials:true
             });
             if(res.data.success){

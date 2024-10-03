@@ -58,6 +58,7 @@ export const login = async (req, res) => {
             });
         };
         let user = await User.findOne({ email });
+        console.log(user);
         if (!user) {
             return res.status(400).json({
                 message: "Incorrect email or password.",
@@ -82,7 +83,7 @@ export const login = async (req, res) => {
         const tokenData = {
             userId: user._id
         }
-        const token = await jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: '1d' });
+        const token =  jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: '1d' });
 
         user = {
             _id: user._id,
@@ -93,9 +94,10 @@ export const login = async (req, res) => {
             profile: user.profile
         }
 
-        return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpsOnly: true, sameSite: 'strict' }).json({
+        return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'strict', path: '/' }).json({
             message: `Welcome back ${user.fullname}`,
             user,
+            token,
             success: true
         })
     } catch (error) {

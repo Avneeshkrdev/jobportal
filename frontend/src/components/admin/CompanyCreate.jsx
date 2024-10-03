@@ -22,24 +22,19 @@ const CompanyCreate = () => {
 
     const handleCreateCompany = async () => {
         try {
-            const token = Cookies.get('token'); // Get token from cookies
-            if (!token) {
-                toast.error('User not authenticated. Please login.');
-                return;
-            }else{
-                console.log(token);
-            }
+            
+             // Get token from cookies
+            // if (!token) {
+            //     toast.error('User not authenticated. Please login.');
+            //     return;
+            // }else{
+            //     console.log(token);
+            // }
 
             const res = await axios.post(`${COMPANY_API_END_POINT}/register`, 
-                { companyName },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}` // Attach the token
-                    },
-                    withCredentials: true
-                }
+                { companyName }, {withCredentials: true}
             );
+            console.log(res.data);
 
             if (res.data.success) {
                 dispatch(setSingleCompany(res.data.company));
