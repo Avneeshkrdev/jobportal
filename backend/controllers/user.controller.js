@@ -45,6 +45,7 @@ export const register = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
+    console.log('I am here');
 }
 export const login = async (req, res) => {
     try {
