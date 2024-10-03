@@ -1,15 +1,15 @@
-import express from "express";
-import cookieParser from "cookie-parser";
-import cors from "cors";
-import dotenv from "dotenv";
 import connectDB from "./utils/db.js";
 import userRoute from "./routes/user.route.js";
 import companyRoute from "./routes/company.route.js";
 import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
 
-dotenv.config();
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
 
+dotenv.config();
 const app = express();
 
 // Middleware
@@ -18,32 +18,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Allowed origins
-const allowedOrigins = [
-    'http://localhost:5173', 
-    'https://jobportal-1-qtsw.onrender.com', 
-    'https://jobportal-ecru.vercel.app',
-    'http://localhost:8000'
-];
- // Add your allowed origins here
- const corsOptions = {
-    origin: (origin, callback) => {
-        // Allow requests from allowed origins or if there's no origin (like Postman)
-        if (!origin || allowedOrigins.includes(origin)) {
-            console.log(`Origin: ${origin || "undefined"} is allowed by CORS`);
-            callback(null, true);
-        } else {
-            console.log(`Origin: ${origin} is not allowed by CORS`);
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    credentials: true, // Allow cookies and credentials
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], // Ensure OPTIONS is allowed
-    allowedHeaders: ['Content-Type', 'Authorization'], // Allow the headers you need
-    optionsSuccessStatus: 204 // Response status for successful OPTIONS requests
-};
 
 
-app.use(cors(corsOptions));
+
+app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 
