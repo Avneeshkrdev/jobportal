@@ -18,21 +18,28 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Allowed origins
-const allowedOrigins = ['http://localhost:5173', 'https://jobportal-1-qtsw.onrender.com', 'https://jobportal-ecru.vercel.app','http://localhost:8000']; // Add your allowed origins here
+const allowedOrigins = [
+    'http://localhost:5173', 
+    'https://jobportal-1-qtsw.onrender.com', 
+    'https://jobportal-ecru.vercel.app',
+    'http://localhost:8000'
+];
+ // Add your allowed origins here
 
 const corsOptions = {
     origin: (origin, callback) => {
+        // Allow requests with no origin like Postman or server-to-server
         if (!origin || allowedOrigins.includes(origin)) {
-            console.log(`Origin: ${origin} is allowed by CORS`);
+            console.log(`Origin: ${origin || "undefined"} is allowed by CORS`);
             callback(null, true);
         } else {
             console.log(`Origin: ${origin} is not allowed by CORS`);
             callback(new Error('Not allowed by CORS'));
         }
     },
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true, // Allow credentials (cookies, etc.)
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allow listed HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
     optionsSuccessStatus: 204
 };
 
