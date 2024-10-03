@@ -25,10 +25,9 @@ const allowedOrigins = [
     'http://localhost:8000'
 ];
  // Add your allowed origins here
-
-const corsOptions = {
+ const corsOptions = {
     origin: (origin, callback) => {
-        // Allow requests with no origin like Postman or server-to-server
+        // Allow requests from allowed origins or if there's no origin (like Postman)
         if (!origin || allowedOrigins.includes(origin)) {
             console.log(`Origin: ${origin || "undefined"} is allowed by CORS`);
             callback(null, true);
@@ -37,11 +36,12 @@ const corsOptions = {
             callback(new Error('Not allowed by CORS'));
         }
     },
-    credentials: true, // Allow credentials (cookies, etc.)
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allow listed HTTP methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
-    optionsSuccessStatus: 204
+    credentials: true, // Allow cookies and credentials
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], // Ensure OPTIONS is allowed
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allow the headers you need
+    optionsSuccessStatus: 204 // Response status for successful OPTIONS requests
 };
+
 
 app.use(cors(corsOptions));
 
