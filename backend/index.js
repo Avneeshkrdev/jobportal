@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Allowed origins
-const allowedOrigins = ['http://localhost:5173', 'https://jobportal-uixz.onrender.com', 'https://jobportal-snowy.vercel.app','http://localhost:8000']; // Add your allowed origins here
+const allowedOrigins = ['http://localhost:5173', 'https://jobportal-1-qtsw.onrender.com', 'https://jobportal-ecru.vercel.app','http://localhost:8000']; // Add your allowed origins here
 
 const corsOptions = {
     origin: (origin, callback) => {
