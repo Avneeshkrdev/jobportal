@@ -58,7 +58,7 @@ const CompanySetup = () => {
             withCredentials: true, // Ensure cookies are sent with the request
             headers: {
                 'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
-                'Content-Type': 'application/json' // Ensure the correct content type if necessary
+                'Content-Type': 'multipart/form-data' // Ensure the correct content type if necessary
             }
         }
     );
