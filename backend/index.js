@@ -17,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({origin: "https://jobportal-ecru.vercel.app", credentials: true,  exposedHeaders: ["Set-Cookie"]}));
+app.set('trust proxy', true)
 
 const PORT = process.env.PORT || 3000;
 
