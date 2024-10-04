@@ -98,7 +98,7 @@ export const login = async (req, res) => {
             maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day in milliseconds
             httpOnly: false,
             secure: true,
-            sameSite: 'none',
+            sameSite: 'None',
             domain: 'jobportal-ecru.vercel.app', // Add leading dot for subdomains
             path: '/'
         }).json({
