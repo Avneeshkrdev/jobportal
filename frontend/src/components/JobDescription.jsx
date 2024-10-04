@@ -38,7 +38,16 @@ const JobDescription = () => {
     useEffect(()=>{
         const fetchSingleJob = async () => {
             try {
-                const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`,{withCredentials:true});
+                const token = document.cookie
+            .split('; ') // Split the cookie string by "; " to get individual key-value pairs
+            .find(row => row.startsWith('token=')) // Find the token entry
+            ?.split('=')[1];
+                const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`,{
+                    headers: {
+                'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+                'Content-Type': 'application/json' // Ensure the correct content type if necessary
+            },
+                    withCredentials:true});
                 if(res.data.success){
                     dispatch(setSingleJob(res.data.job));
                     setIsApplied(res.data.job.applications.some(application=>application.applicant === user?._id)) // Ensure the state is in sync with fetched data

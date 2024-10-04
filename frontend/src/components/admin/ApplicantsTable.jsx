@@ -16,7 +16,16 @@ const ApplicantsTable = () => {
         console.log('called');
         try {
             axios.defaults.withCredentials = true;
-            const res = await axios.post(`${APPLICATION_API_END_POINT}/status/${id}/update`, { status });
+            const token = document.cookie
+            .split('; ') // Split the cookie string by "; " to get individual key-value pairs
+            .find(row => row.startsWith('token=')) // Find the token entry
+            ?.split('=')[1];
+            const res = await axios.post(`${APPLICATION_API_END_POINT}/status/${id}/update`, {
+                headers: {
+                'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+                'Content-Type': 'application/json' // Ensure the correct content type if necessary
+            },
+                status });
             console.log(res);
             if (res.data.success) {
                 toast.success(res.data.message);
