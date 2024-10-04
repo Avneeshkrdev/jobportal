@@ -46,9 +46,22 @@ const CompanySetup = () => {
         }
         try {
             setLoading(true);
-            const res = await axios.put(`${COMPANY_API_END_POINT}/update/${params.id}`, formData, {
-                withCredentials: true
-            });
+            const token = document.cookie
+            .split('; ') // Split the cookie string by "; " to get individual key-value pairs
+            .find(row => row.startsWith('token=')) // Find the token entry
+            ?.split('=')[1];
+
+            const res = await axios.put(
+        `${COMPANY_API_END_POINT}/update/${params.id}`,
+        formData, // The data you want to send in the request
+        {
+            withCredentials: true, // Ensure cookies are sent with the request
+            headers: {
+                'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+                'Content-Type': 'application/json' // Ensure the correct content type if necessary
+            }
+        }
+    );
             if (res.data.success) {
                 toast.success(res.data.message);
                 navigate("/admin/companies");

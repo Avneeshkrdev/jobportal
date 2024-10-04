@@ -42,7 +42,17 @@ const PostJob = () => {
         e.preventDefault();
         try {
             setLoading(true);
+            const token = document.cookie
+            .split('; ') // Split the cookie string by "; " to get individual key-value pairs
+            .find(row => row.startsWith('token=')) // Find the token entry
+            ?.split('=')[1];
+
+
             const res = await axios.post(`${JOB_API_END_POINT}/post`, input, {
+                headers: {
+                'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+                'Content-Type': 'application/json' // Ensure the correct content type if necessary
+            },
                 withCredentials:true
             });
             if(res.data.success){
