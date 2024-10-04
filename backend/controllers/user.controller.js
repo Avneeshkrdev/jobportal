@@ -96,10 +96,10 @@ export const login = async (req, res) => {
 
         return res.status(200).cookie("token", token, { 
             maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day in milliseconds
-            httpOnly: true,
+            httpOnly: false,
             secure: true,
             sameSite: 'none',
-            domain: '.jobportal-1-qtsw.onrender.com', // Add leading dot for subdomains
+            domain: 'jobportal-1-qtsw.onrender.com', // Add leading dot for subdomains
             path: '/'
         }).json({
             message: `Welcome back ${user.fullname}`,
