@@ -99,7 +99,7 @@ export const login = async (req, res) => {
             httpOnly: false,
             secure: true,
             sameSite: 'none',
-            domain: 'jobportal-1-qtsw.onrender.com', // Add leading dot for subdomains
+            domain: 'jobportal-ecru.vercel.app', // Add leading dot for subdomains
             path: '/'
         }).json({
             message: `Welcome back ${user.fullname}`,
