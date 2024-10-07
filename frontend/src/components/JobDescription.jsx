@@ -17,13 +17,17 @@ const JobDescription = () => {
     const params = useParams();
     const jobId = params.id;
     const dispatch = useDispatch();
+    const token = document.cookie
+    .split('; ') // Split the cookie string by "; " to get individual key-value pairs
+    .find(row => row.startsWith('token=')) // Find the token entry
+    ?.split('=')[1];
 
     const applyJobHandler = async () => {
         try {
-            const token = document.cookie
-            .split('; ') // Split the cookie string by "; " to get individual key-value pairs
-            .find(row => row.startsWith('token=')) // Find the token entry
-            ?.split('=')[1];
+            // const token = document.cookie
+            // .split('; ') // Split the cookie string by "; " to get individual key-value pairs
+            // .find(row => row.startsWith('token=')) // Find the token entry
+            // ?.split('=')[1];
             
             const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`, {
                 headers: {
@@ -48,10 +52,7 @@ const JobDescription = () => {
     useEffect(()=>{
         const fetchSingleJob = async () => {
             try {
-                const token = document.cookie
-            .split('; ') // Split the cookie string by "; " to get individual key-value pairs
-            .find(row => row.startsWith('token=')) // Find the token entry
-            ?.split('=')[1];
+
 
                 const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`,{
                     headers: {
