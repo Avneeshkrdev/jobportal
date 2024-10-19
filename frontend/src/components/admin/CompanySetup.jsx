@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import Navbar from '../shared/Navbar'
-import { Button } from '../ui/button'
-import { ArrowLeft, Loader2 } from 'lucide-react'
-import { Label } from '../ui/label'
-import { Input } from '../ui/input'
-import axios from 'axios'
-import { COMPANY_API_END_POINT } from '@/utils/constant'
-import { useNavigate, useParams } from 'react-router-dom'
-import { toast } from 'sonner'
-import { useSelector } from 'react-redux'
-import useGetCompanyById from '@/hooks/useGetCompanyById'
+import React, { useEffect, useState } from 'react';
+import Navbar from '../shared/Navbar';
+import { Button } from '../ui/button';
+import { ArrowLeft, Loader2 } from 'lucide-react';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import axios from 'axios';
+import { COMPANY_API_END_POINT } from '@/utils/constant';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'sonner';
+import { useSelector } from 'react-redux';
+import useGetCompanyById from '@/hooks/useGetCompanyById';
 
 const CompanySetup = () => {
     const params = useParams();
@@ -21,7 +21,7 @@ const CompanySetup = () => {
         location: "",
         file: null
     });
-    const {singleCompany} = useSelector(store=>store.company);
+    const { singleCompany } = useSelector(store => store.company);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -47,27 +47,26 @@ const CompanySetup = () => {
         try {
             setLoading(true);
             const token = document.cookie
-            .split('; ') // Split the cookie string by "; " to get individual key-value pairs
-            .find(row => row.startsWith('token=')) // Find the token entry
-            ?.split('=')[1];
+                .split('; ') // Split the cookie string by "; " to get individual key-value pairs
+                .find(row => row.startsWith('token=')) // Find the token entry
+                ?.split('=')[1];
 
             const res = await axios.put(
-        `${COMPANY_API_END_POINT}/update/${params.id}`,
-        formData, // The data you want to send in the request
-        {
-            withCredentials: true, // Ensure cookies are sent with the request
-            headers: {
-                'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
-                'Content-Type': 'multipart/form-data' // Ensure the correct content type if necessary
-            }
-        }
-    );
+                `${COMPANY_API_END_POINT}/update/${params.id}`,
+                formData,
+                {
+                    withCredentials: true,
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            );
             if (res.data.success) {
                 toast.success(res.data.message);
                 navigate("/admin/companies");
             }
         } catch (error) {
-            console.log(error);
             toast.error(error.response.data.message);
         } finally {
             setLoading(false);
@@ -81,22 +80,26 @@ const CompanySetup = () => {
             website: singleCompany.website || "",
             location: singleCompany.location || "",
             file: singleCompany.file || null
-        })
-    },[singleCompany]);
+        });
+    }, [singleCompany]);
 
     return (
         <div>
             <Navbar />
-            <div className='max-w-xl mx-auto my-10'>
+            <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 my-10'>
                 <form onSubmit={submitHandler}>
-                    <div className='flex items-center gap-5 p-8'>
-                        <Button onClick={() => navigate("/admin/companies")} variant="outline" className="flex items-center gap-2 text-gray-500 font-semibold">
+                    <div className='flex items-center gap-4 p-4 md:p-8'>
+                        <Button
+                            onClick={() => navigate("/admin/companies")}
+                            variant="outline"
+                            className="flex items-center gap-2 text-gray-500 font-semibold"
+                        >
                             <ArrowLeft />
                             <span>Back</span>
                         </Button>
-                        <h1 className='font-bold text-xl'>Company Setup</h1>
+                        <h1 className='font-bold text-xl md:text-2xl'>Company Setup</h1>
                     </div>
-                    <div className='grid grid-cols-2 gap-4'>
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                         <div>
                             <Label>Company Name</Label>
                             <Input
@@ -143,13 +146,21 @@ const CompanySetup = () => {
                         </div>
                     </div>
                     {
-                        loading ? <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Update</Button>
+                        loading ? (
+                            <Button className="w-full my-4">
+                                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                                Please wait
+                            </Button>
+                        ) : (
+                            <Button type="submit" className="w-full my-4">
+                                Update
+                            </Button>
+                        )
                     }
                 </form>
             </div>
-
         </div>
-    )
-}
+    );
+};
 
-export default CompanySetup
+export default CompanySetup;

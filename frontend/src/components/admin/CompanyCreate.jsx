@@ -22,19 +22,11 @@ const CompanyCreate = () => {
 
     const handleCreateCompany = async () => {
         try {
-            
-             // Get token from cookies
-            // if (!token) {
-            //     toast.error('User not authenticated. Please login.');
-            //     return;
-            // }else{
-            //     console.log(token);
-            // }
             const token = document.cookie
-            .split('; ') // Split the cookie string by "; " to get individual key-value pairs
-            .find(row => row.startsWith('token=')) // Find the token entry
-            ?.split('=')[1];
-            
+                .split('; ') // Split the cookie string by "; " to get individual key-value pairs
+                .find(row => row.startsWith('token=')) // Find the token entry
+                ?.split('=')[1];
+
             const res = await axios.post(
                 `${COMPANY_API_END_POINT}/register`,
                 { companyName }, // Payload without the token
@@ -46,7 +38,6 @@ const CompanyCreate = () => {
                     withCredentials: true // Ensure cookies are sent with the request
                 }
             );
-            console.log(res.data);
 
             if (res.data.success) {
                 dispatch(setSingleCompany(res.data.company));
@@ -65,27 +56,34 @@ const CompanyCreate = () => {
     return (
         <div>
             <Navbar />
-            <div className='max-w-4xl mx-auto'>
+            <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
                 <div className='my-10'>
-                    <h1 className='font-bold text-2xl'>Your Company Name</h1>
-                    <p className='text-gray-500'>
+                    <h1 className='font-bold text-2xl sm:text-3xl'>Your Company Name</h1>
+                    <p className='text-gray-500 text-sm sm:text-base'>
                         What would you like to name your company? You can change this later.
                     </p>
                 </div>
 
-                <Label>Company Name</Label>
+                <Label className="block">Company Name</Label>
                 <Input
                     type="text"
-                    className="my-2"
-                    placeholder="JobHunt, Microsoft etc."
+                    className="my-2 w-full sm:w-1/2 lg:w-1/3"
+                    placeholder="JobHunt, Microsoft, etc."
                     value={companyName}
                     onChange={handleCompanyNameChange}
                 />
-                <div className='flex items-center gap-2 my-10'>
-                    <Button variant="outline" onClick={() => navigate('/admin/companies')}>
+                <div className='flex flex-col sm:flex-row items-center gap-2 my-10'>
+                    <Button 
+                        variant="outline" 
+                        onClick={() => navigate('/admin/companies')}
+                        className="w-full sm:w-auto"
+                    >
                         Cancel
                     </Button>
-                    <Button onClick={handleCreateCompany}>
+                    <Button 
+                        onClick={handleCreateCompany}
+                        className="w-full sm:w-auto"
+                    >
                         Continue
                     </Button>
                 </div>

@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from './ui/dialog'
-import { Label } from './ui/label'
-import { Input } from './ui/input'
-import { Button } from './ui/button'
-import { Loader2 } from 'lucide-react'
-import { useDispatch, useSelector } from 'react-redux'
-import axios from 'axios'
-import { USER_API_END_POINT } from '@/utils/constant'
-import { setUser } from '@/redux/authSlice'
-import { toast } from 'sonner'
+import React, { useState } from 'react';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from './ui/dialog';
+import { Label } from './ui/label';
+import { Input } from './ui/input';
+import { Button } from './ui/button';
+import { Loader2 } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { USER_API_END_POINT } from '@/utils/constant';
+import { setUser } from '@/redux/authSlice';
+import { toast } from 'sonner';
 
 const UpdateProfileDialog = ({ open, setOpen }) => {
     const [loading, setLoading] = useState(false);
@@ -19,7 +19,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         email: user?.email || "",
         phoneNumber: user?.phoneNumber || "",
         bio: user?.profile?.bio || "",
-        skills: user?.profile?.skills?.map(skill => skill) || "",
+        skills: user?.profile?.skills?.join(', ') || "", // Changed to a string for input
         file: user?.profile?.resume || ""
     });
     const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
 
     const fileChangeHandler = (e) => {
         const file = e.target.files?.[0];
-        setInput({ ...input, file })
+        setInput({ ...input, file });
     }
 
     const submitHandler = async (e) => {
@@ -40,20 +40,20 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         formData.append("email", input.email);
         formData.append("phoneNumber", input.phoneNumber);
         formData.append("bio", input.bio);
-        formData.append("skills", input.skills);
+        formData.append("skills", input.skills.split(',').map(skill => skill.trim())); // Splitting skills back to array
         if (input.file) {
             formData.append("file", input.file);
         }
         try {
             setLoading(true);
             const token = document.cookie
-            .split('; ') // Split the cookie string by "; " to get individual key-value pairs
-            .find(row => row.startsWith('token=')) // Find the token entry
-            ?.split('=')[1];
+                .split('; ')
+                .find(row => row.startsWith('token='))
+                ?.split('=')[1];
             const res = await axios.post(`${USER_API_END_POINT}/profile/update`, formData, {
-                    headers: {
-                'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
-                'Content-Type': 'multipart/form-data' // Ensure the correct content type if necessary
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
                 },
                 withCredentials: true
             });
@@ -64,33 +64,31 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
-        } finally{
+        } finally {
             setLoading(false);
         }
         setOpen(false);
-        console.log(input);
     }
-
-
 
     return (
         <div>
             <Dialog open={open}>
-                <DialogContent className="sm:max-w-[425px]" onInteractOutside={() => setOpen(false)}>
+                <DialogContent className="sm:max-w-[425px] w-full" onInteractOutside={() => setOpen(false)}>
                     <DialogHeader>
                         <DialogTitle>Update Profile</DialogTitle>
                     </DialogHeader>
                     <form onSubmit={submitHandler}>
                         <div className='grid gap-4 py-4'>
                             <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="name" className="text-right">Name</Label>
+                                <Label htmlFor="fullname" className="text-right">Name</Label>
                                 <Input
-                                    id="name"
-                                    name="name"
+                                    id="fullname"
+                                    name="fullname"
                                     type="text"
                                     value={input.fullname}
                                     onChange={changeEventHandler}
                                     className="col-span-3"
+                                    required
                                 />
                             </div>
                             <div className='grid grid-cols-4 items-center gap-4'>
@@ -102,16 +100,18 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                     value={input.email}
                                     onChange={changeEventHandler}
                                     className="col-span-3"
+                                    required
                                 />
                             </div>
                             <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="number" className="text-right">Number</Label>
+                                <Label htmlFor="phoneNumber" className="text-right">Number</Label>
                                 <Input
-                                    id="number"
-                                    name="number"
+                                    id="phoneNumber"
+                                    name="phoneNumber"
                                     value={input.phoneNumber}
                                     onChange={changeEventHandler}
                                     className="col-span-3"
+                                    required
                                 />
                             </div>
                             <div className='grid grid-cols-4 items-center gap-4'>
@@ -122,6 +122,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                     value={input.bio}
                                     onChange={changeEventHandler}
                                     className="col-span-3"
+                                    required
                                 />
                             </div>
                             <div className='grid grid-cols-4 items-center gap-4'>
@@ -132,6 +133,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                     value={input.skills}
                                     onChange={changeEventHandler}
                                     className="col-span-3"
+                                    placeholder="Comma separated values"
                                 />
                             </div>
                             <div className='grid grid-cols-4 items-center gap-4'>
@@ -148,7 +150,13 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                         </div>
                         <DialogFooter>
                             {
-                                loading ? <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Update</Button>
+                                loading ? (
+                                    <Button className="w-full my-4" disabled>
+                                        <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait
+                                    </Button>
+                                ) : (
+                                    <Button type="submit" className="w-full my-4">Update</Button>
+                                )
                             }
                         </DialogFooter>
                     </form>
@@ -158,4 +166,4 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     )
 }
 
-export default UpdateProfileDialog
+export default UpdateProfileDialog;
