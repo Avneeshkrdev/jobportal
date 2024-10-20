@@ -37,7 +37,7 @@ const Navbar = () => {
                     <h1 className='text-2xl font-bold text-[#6A38C2]'>JobPortal</h1>
                 </div>
                 <div className='flex items-center gap-4 md:gap-12'>
-                    <ul className='flex font-medium items-center gap-5 hidden md:flex'>
+                    <ul className='flex font-medium items-center gap-5  md:flex'>
                         {
                             user && user.role === 'recruiter' ? (
                                 <>
