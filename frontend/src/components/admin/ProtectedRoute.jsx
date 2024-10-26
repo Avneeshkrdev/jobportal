@@ -13,10 +13,10 @@ const ProtectedRoute = ({ children }) => {
     }, [user, navigate]); // Added user and navigate as dependencies
 
     return (
-        <div className="flex items-center justify-center w-full min-h-screen px-4">
+        <div className="flex items-center justify-center w-full min-h-screen ">
             {/* Only render children if user is authorized */}
             {user && user.role === 'recruiter' && (
-                <div className="max-w-2xl w-full">
+                <div className="w-full">
                     {children}
                 </div>
             )}

@@ -54,21 +54,23 @@ const CompanyCreate = () => {
     };
 
     return (
-        <div>
+        <div className=' h-screen '>
             <Navbar />
-            <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
+            <div className='flex justify-center items-center flex-row md:h-[80vh]'>
+            <div className=' mx-auto px-4 sm:px-6 lg:px-8 border border-gray-300 rounded-lg shadow-lg  flex flex-col justify-center w-[40%] items-center '>
+            <div>
                 <div className='my-10'>
-                    <h1 className='font-bold text-2xl sm:text-3xl'>Your Company Name</h1>
-                    <p className='text-gray-500 text-sm sm:text-base'>
-                        What would you like to name your company? You can change this later.
+                    <h1 className='font-bold text-2xl sm:text-3xl my-2'>Your Company Name</h1>
+                    <p className='text-gray-500 text-sm md:text-base'>
+                        What would you like to name your company? (You can change this later.)
                     </p>
                 </div>
 
-                <Label className="block">Company Name</Label>
+                <Label className="block text-base">Company Name</Label>
                 <Input
                     type="text"
-                    className="my-2 w-full sm:w-1/2 lg:w-1/3"
-                    placeholder="JobHunt, Microsoft, etc."
+                    className="my-2 w-[80%] "
+                    placeholder="Google, Microsoft, etc."
                     value={companyName}
                     onChange={handleCompanyNameChange}
                 />
@@ -87,6 +89,8 @@ const CompanyCreate = () => {
                         Continue
                     </Button>
                 </div>
+                </div>
+            </div>
             </div>
         </div>
     );
