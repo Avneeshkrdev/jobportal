@@ -84,19 +84,13 @@ const CompanySetup = () => {
     }, [singleCompany]);
 
     return (
-        <div>
+        <div className='h-screen'>
             <Navbar />
-            <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 my-10'>
+            <div className='flex flex-col justify-center items-center h-[80vh]' >
+            <div className=' border border-gray-300 rounded-lg shadow-lg pb-10 pt-2  w-[60%] mx-auto  px-4 md:px-6 lg:px-8 my-10'>
                 <form onSubmit={submitHandler}>
-                    <div className='flex items-center gap-4 p-4 md:p-8'>
-                        <Button
-                            onClick={() => navigate("/admin/companies")}
-                            variant="outline"
-                            className="flex items-center gap-2 text-gray-500 font-semibold"
-                        >
-                            <ArrowLeft />
-                            <span>Back</span>
-                        </Button>
+                    <div className='flex items-center gap-4 py-4 md:py-8'>
+                        
                         <h1 className='font-bold text-xl md:text-2xl'>Company Setup</h1>
                     </div>
                     <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
@@ -142,22 +136,35 @@ const CompanySetup = () => {
                                 type="file"
                                 accept="image/*"
                                 onChange={changeFileHandler}
+                                className=""
                             />
                         </div>
                     </div>
-                    {
+                    <div className='flex flex-row mt-6 justify-around w-full   gap-6'>
+                    <Button
+                            onClick={() => navigate("/admin/companies")}
+                            variant="outline"
+                            className="flex items-center w-[40%] gap-2 py-5 text-gray-500 font-semibold"
+                        >
+                            <ArrowLeft />
+                            <span>Back</span>
+                        </Button>
+                        {
                         loading ? (
-                            <Button className="w-full my-4">
+                            <Button className=" w-[40%] py-5">
                                 <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                                 Please wait
                             </Button>
                         ) : (
-                            <Button type="submit" className="w-full my-4">
+                            <Button type="submit" className="py-5 w-[40%]">
                                 Update
                             </Button>
                         )
                     }
+                    </div>
+                   
                 </form>
+            </div>
             </div>
         </div>
     );
