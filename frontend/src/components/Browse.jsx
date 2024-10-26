@@ -24,7 +24,7 @@ const Browse = () => {
         <div>
             <Navbar />
             <div className='max-w-7xl mx-auto my-10 px-4'>
-            <div className='flex flex-row items-center gap-6'>
+            <div className='flex flex-row items-center gap-6 mb-4'>
                 <Button
                 className="gap-2 flex flex-row justify-center items-center"
                 variant="outline"
