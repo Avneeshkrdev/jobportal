@@ -64,7 +64,7 @@ const PostJob = () => {
     };
 
     return (
-        <div>
+        <div className=' h-screen'>
             <Navbar />
             <div className='flex items-center justify-center w-full my-5 px-4'>
                 <form onSubmit={submitHandler} className='p-8 max-w-2xl w-full border border-gray-200 shadow-lg rounded-md'>

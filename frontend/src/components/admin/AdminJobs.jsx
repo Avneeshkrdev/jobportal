@@ -19,9 +19,9 @@ const AdminJobs = () => {
   }, [input]);
 
   return (
-    <div>
+    <div className=' h-screen'>
       <Navbar />
-      <div className='max-w-6xl mx-auto my-10 px-4 sm:px-6 lg:px-8'>
+      <div className=' mx-auto my-10 px-4 sm:px-6 lg:px-8'>
         <div className='flex flex-col sm:flex-row items-center justify-between my-5'>
           <Input
             className="w-full sm:w-1/2 mb-4 sm:mb-0"

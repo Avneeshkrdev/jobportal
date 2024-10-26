@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import useGetAllCompanies from '@/hooks/useGetAllCompanies';
 import { useDispatch } from 'react-redux';
 import { setSearchCompanyByText } from '@/redux/companySlice';
+import { ArrowLeft } from 'lucide-react';
 
 const Companies = () => {
     useGetAllCompanies();
@@ -19,14 +20,22 @@ const Companies = () => {
     }, [input, dispatch]);
 
     return (
-        <div className="  w-full min-h-screen border border-black bg-gray-50"> {/* Full screen height and width */}
+        <div className="  w-full min-h-screen  bg-gray-50"> {/* Full screen height and width */}
             <Navbar />
             {/* Full-width container with no padding */}
             <div className="w-full px-4 sm:px-6 lg:px-8 my-6"> 
                 {/* Flexbox for input and button */}
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
+                    <Button
+                      onClick={() => navigate("/admin/companies")}
+                            variant="outline"
+                            className="flex items-center gap-4 justify-center  text-gray-500 font-semibold"
+                        >
+                            <ArrowLeft className='w-4 h-4' />
+                            <span>Back</span>
+                    </Button>
                     <Input
-                        className="w-full sm:w-80"  // Full width on mobile, fixed on larger screens
+                        className="md:w-[50%] w-80"  // Full width on mobile, fixed on larger screens
                         placeholder="Filter by name"
                         onChange={(e) => setInput(e.target.value)}
                     />
