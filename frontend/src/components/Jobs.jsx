@@ -4,10 +4,14 @@ import FilterCard from './FilterCard';
 import Job from './Job';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
+import { Button } from './ui/button';
+import { ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Jobs = () => {
     const { allJobs, searchedQuery } = useSelector(store => store.job);
     const [filterJobs, setFilterJobs] = useState(allJobs);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (searchedQuery) {
@@ -27,6 +31,13 @@ const Jobs = () => {
             <Navbar />
             <div className='max-w-7xl mx-auto mt-5 px-4'>
                 <div className='flex flex-col lg:flex-row gap-5'>
+                <Button className="gap-2 flex flex-row items-center justify-center"
+                variant="outline"
+                onClick={() => navigate('/')}
+                >
+                <ArrowLeft className='w-4 h-4'/>
+                Back
+                </Button>
                     <div className='lg:w-1/4 w-full'>
                         <FilterCard />
                     </div>
